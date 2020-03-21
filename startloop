@@ -1,0 +1,27 @@
+#!/bin/bash
+
+timeout=600
+round_wait=10
+
+pid=0
+trap "kill $pid; exit 0" INT
+
+while [ true ];
+do
+	rm -f scores
+	touch scores
+
+	echo "starting round"
+	bzfs -a 50 38 -admsg "zhenaaaaaaaa" -srvmsg "zhenaaaaaaaa" -advertise NONE +f good -f bad -f GM -h -j -ms 4 +r -t -time $timeout -printscore >> scores &
+	pid=$!
+	sleep $timeout
+	echo "server is finished"
+
+	if [ -f "./scores" ]; then
+		res=$(tail scores -n $((`cat scores | wc -l` - `cat scores | grep -n "#players" | tail -n 1 | cut -d":" -f 1` + 1)))
+		curl --data-urlencode "value1=$res" https://maker.ifttt.com/trigger/bzfscore/with/key/cDep4e457aRlWoQPm1_YLk
+	fi
+
+	kill $pid
+	sleep $round_wait
+done
