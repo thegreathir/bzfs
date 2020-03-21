@@ -17,7 +17,7 @@ do
 	sleep $timeout
 	echo "server is finished"
 
-	if [ -f "./scores" ]; then
+	if [ -s "./scores" ]; then
 		res=$(tail scores -n $((`cat scores | wc -l` - `cat scores | grep -n "#players" | tail -n 1 | cut -d":" -f 1` + 1)))
 		curl --data-urlencode "value1=$res" https://maker.ifttt.com/trigger/bzfscore/with/key/cDep4e457aRlWoQPm1_YLk
 	fi
