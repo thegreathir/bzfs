@@ -12,13 +12,13 @@ do
 	touch scores
 
 	echo "starting round"
-	bzfs -a 50 38 -admsg "zhenaaaaaaaa" -srvmsg "zhenaaaaaaaa" -advertise NONE +f good -f bad -f GM -h -j -ms 4 +r -t -time $timeout -printscore >> scores &
+	bzfs -a 50 38 -admsg "zhenaaaaaaaa" -srvmsg "zhenaaaaaaaa" -advertise NONE +f good -h -j -ms 4 +r -t -time $timeout -printscore >> scores &
 	pid=$!
 	sleep $timeout
 	echo "server is finished"
 
 	if [ -s "./scores" ]; then
-		res=$(tail scores -n $((`cat scores | wc -l` - `cat scores | grep -n "#players" | tail -n 1 | cut -d":" -f 1` + 1)))
+		res=$(tail scores -n $((`cat scores | wc -l` - `cat scores | grep -n "#teams" | tail -n 1 | cut -d":" -f 1` + 1)))
 		curl --data-urlencode "value1=$res" https://maker.ifttt.com/trigger/bzfscore/with/key/cDep4e457aRlWoQPm1_YLk
 	fi
 
