@@ -1,0 +1,3 @@
+#!/bin/bash
+
+tmux new-session -d -s "bzfs" bzfs -a 50 38 -admsg "zhenaaaaaaaa" -advertise NONE +f good -f GM -f L -h -j -ms 4 +r -t
